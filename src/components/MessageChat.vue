@@ -191,7 +191,7 @@ export default {
       setFn = setTimeout(function(){;
         if(statusHeight!=status.clientHeight){
             document.getElementById("iscroll").style.top = "-"+document.getElementById("editorStatus").scrollHeight + "px";
-        }else{
+        }else if(!self.showStatus){
             document.getElementById("iscroll").style.top = "0px";
         }
       },0);
