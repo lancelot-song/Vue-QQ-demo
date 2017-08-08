@@ -1,0 +1,57 @@
+@charset "utf-8";
+body,p,ul,ol,li,dl,dt,dd,h1,h2,h3,h4,h5,form,fieldset,legend,input,select,textarea,button,th,td,menu,article,pre,xmp,plaintext,listing{margin:0;padding:0;}
+pre,xmp,plaintext,listing{white-space:normal;}
+article,aside,dialog,figure,footer,header,hgroup,nav,section,select,time{display:block;}
+h1,h2,h3,h4,h5,h6,input,textarea,select,button,label{font-size:100%;font-weight:100;vertical-align:middle;}
+ul,dl,ol{list-style:none;}
+img,fieldset,input[type="submit"]{border:none;}
+input{outline:none;background:transparent;vertical-align:top;}	
+table{border-collapse:collapse;border-spacing:0;}		
+button{cursor:pointer;border:none;}
+textarea{word-wrap:break-word;resize:none;}
+select::-ms-expand{display:none;}
+::-ms-check{display:none;}
+input, textarea, select{-webkit-appearance:none;border:none;outline:none;}
+input:-moz-placeholder{color:#C4C4C4;}
+::-webkit-input-placeholder{color:#C4C4C4;}
+body{background:#EAEAEA;-webkit-user-select:none;-webkit-text-size-adjust:none;-webkit-tap-highlight-color:rgba(0,0,0,0.05);overflow:hidden;min-height:100%;font-family:Helvetica,STHeiti,Droid Sans Fallback,"黑体";background:#FFFFFF;color:#666666}
+html,body{-webkit-text-size-adjust:none;height:100%;width:100%;overflow:hidden;}
+a,button,input{-webkit-touch-callout:none;outline:none;}
+a,a:visited{text-decoration:none;-webkit-touch-callout:none;}
+/* 浏览器重置 end */
+.box-sizing{
+    -moz-box-sizing:border-box;
+    -webkit-box-sizing:border-box;
+    box-sizing:border-box
+}
+#app,#main{
+    height: 100%;
+}
+.view-wrap{
+  position:absolute;
+  left:0;top:0;
+  width: 100%;
+  height: 100%;
+  z-index: 100;
+}
+.view-wrap.bg-white{
+  background-color:#fff;
+}
+.view-wrap.bg-gray{
+  background-color:#ecedf1;
+}
+#iscroll{
+    position:absolute;
+    top:0;left:0;
+    width: 100%;
+    height: 100%;
+    -webkit-box-sizing:border-box;
+    -moz-box-sizing:border-box;
+    -ms-box-sizing:border-box;
+    -o-box-sizing:border-box;
+    box-sizing:border-box;
+}
+/*.bg-gray{
+    background-color:#ecedf1;
+}*/
+

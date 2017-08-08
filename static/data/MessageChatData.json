@@ -1,0 +1,14 @@
+[{
+    "type": "recv",
+    "photo":"./static/images/userphoto-02.jpg",
+    "txt": "欢迎访问Lszh的小程序，您可以发送消息给我  :)",
+    "time": "星期一 上午 12:20"
+},{
+    "type": "send",
+    "photo":"./static/images/userphoto-04.png",
+    "txt": "欢迎访问Lszh的小程序，您可以发送消息给我  :)"
+},{
+    "type": "recv",
+    "photo":"./static/images/userphoto-02.jpg",
+    "txt": "不要学我说话 ⊙﹏⊙‖"
+}]
