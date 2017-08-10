@@ -23,20 +23,14 @@
 
 
 <script>
-import data from "../data/emoji-data.js"
+import data from "../../data/emoji-data.js"
 export default {
-  props : ["sideActive"],
   data () {
     return {
       emojiData : data,
       emojiMenu : ["表情","自然","物品","地点","符号"],
       activeIndex: 0
     }
-  },
-  mounted (){
-      this.$watch("sideActive",function(){
-          this.sideActive ? this.sideLayerSwitch = true : this.sideLayerSwitch = false;
-      });
   },
   methods :{
       getEmojiName (name){
@@ -60,7 +54,7 @@ export default {
 
 </script>
 <style lang='scss' scoped>
-@import '../../static/css/iconfont.css';
+@import '/static/css/iconfont.css';
 @import './static/scss/emoji-sprite.scss';
 .emoji-menu{
 	position:relative;

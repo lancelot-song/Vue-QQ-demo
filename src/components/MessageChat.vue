@@ -188,7 +188,7 @@
 					</transition>
           <transition name="fade" mode="">
               <div class="emoji-wrap" :class="{'active' : showStatus==='more'}">
-                  <vue-emoji @select="selectEmoji"></vue-emoji>
+                  <vue-more></vue-more>
               </div>
           </transition>
       </div>
@@ -199,8 +199,39 @@
 
 <script>
 import ChatData from "./MessageChatData.vue";
-import VueEmoji from "./Emoji.vue";
+import VueEmoji from "./messageTool/Emoji.vue";
+import VueMore from "./messageTool/More.vue";
 
+let editorTool = {
+		source : {
+				src : "/static/images/microphone.svg",
+				width : 36
+		},
+		video : {
+				src : "/static/images/smallvideo.svg",
+				width : 28
+		},
+		photo : {
+				src : "/static/images/frame-landscape.svg",
+				width : 22
+		},
+		picture : {
+				src : "/static/images/photo-camera.svg",
+				width : 24
+		},
+		money : {
+				src : "/static/images/dollars-bag.svg",
+				width : 22
+		},
+		emoji : {
+				src : "/static/images/expression.svg",
+				width : 26
+		},
+		more : {
+				src : "/static/images/round-add-button.svg",
+				width : 22
+		}
+}
 export default {
   data () {
     return {
@@ -211,41 +242,13 @@ export default {
       inputHeight : 32,
       inputHeightDefault : 0,
       chats :[],
-      editorTool : {
-      		source : {
-      				src : "/static/images/microphone.svg",
-      				width : 36
-      		},
-      		video : {
-      				src : "/static/images/smallvideo.svg",
-      				width : 28
-      		},
-      		photo : {
-      				src : "/static/images/frame-landscape.svg",
-      				width : 22
-      		},
-      		picture : {
-      				src : "/static/images/photo-camera.svg",
-      				width : 24
-      		},
-      		money : {
-      				src : "/static/images/dollars-bag.svg",
-      				width : 22
-      		},
-      		emoji : {
-      				src : "/static/images/expression.svg",
-      				width : 26
-      		},
-      		more : {
-      				src : "/static/images/round-add-button.svg",
-      				width : 22
-      		}
-      }
+      editorTool : editorTool
     }
   },
   components: {
     ChatData,
-    VueEmoji
+    VueEmoji,
+    VueMore
   },
   mounted : function(){
     this.$nextTick(function(){
