@@ -21,6 +21,7 @@
     transition:all .2s ease-out;
     -webkit-transform:translateZ(0);
     transform:translateZ(0);
+    overflow: hidden;
 }
 .view-input-group{
 	position:relative;
@@ -28,16 +29,43 @@
 	overflow: hidden;
 }
 .view-editor .textarea{
-    margin:.5rem 0 .65rem .5rem;
+    margin:8px 0 10px 8px;
+    padding:4px 12px;
     width: 100%;
-    height:2rem;
-    line-height:2rem;
-    font-size:.875rem;
-    padding:0 .75rem;
+    height: 32px;
+    line-height:24px;
+    font-size:14px;
     color:#333;
     border-radius:.3rem;
-    box-sizing:border-box;
     background-color:#fff;
+    resize: none;
+    -webkit-box-sizing:border-box;
+    box-sizing:border-box;
+    overflow: hidden;
+}
+.view-input-group-copy{
+	position:absolute;
+	bottom:-100%;
+	width:100%;
+	padding-right:5.5rem;
+	visibility: hidden;
+	overflow: hidden;
+	-webkit-box-sizing:border-box;
+	box-sizing:border-box;
+}
+.view-editor .textarea-copy{
+    padding:4px 12px;
+    width: 100%;
+    height: 32px;
+    line-height:24px;
+    font-size:14px;
+    color:#333;
+    border-radius:.3rem;
+    background-color:#fff;
+    resize: none;
+    -webkit-box-sizing:border-box;
+    box-sizing:border-box;
+    overflow: hidden;
 }
 .view-editor .btn-send{
 	position:absolute;
@@ -58,6 +86,7 @@
     display: flex;
 }
 .view-editor-status{
+  height: 144px;
 }
 .icon-editor{
     display: inline-block;
@@ -100,40 +129,53 @@
       </div>
   </header>
 
-  <div id="iscroll" class="view-iscroll-chat">
+  <div id="iscroll" class="view-iscroll-chat"
+  		 :style="'-webkit-transform:translateY(-'+iscrollTop+'px);transform:translateY(-'+iscrollTop+'px)'">
       <chat-data v-for="item in chats" :message="item"></chat-data>
   </div>
 
   <div class="view-editor" id="editorContent">
     <form id="messageForm" @submit.prevent="onSubmit">
       <div class="view-input-group">
-      	<input type="text" v-model="val" class="textarea" placeholder="请输入您要发送的消息" />
-      	<button type="button" @click="submitMsg" class="btn-send">提交</button>
+      	<textarea class="textarea" placeholder="请输入您要发送的消息" id="input" autocorrect="off"
+      			v-model="val" 
+      			@click="inputFocus($event)"
+      			@keyup="inputKeyup($event)"
+      			@input="inputKeyup($event)"
+      			:style="'height:'+inputHeight+'px'"
+      			></textarea>
+      	<button type="button" @click="submitMsg" class="btn-send">发送</button>
+      </div>
+      <div class="view-input-group-copy">
+      	<textarea class="textarea-copy" id="inputCopy" autocorrect="off" v-model="val"></textarea>
       </div>
       <div class="view-editor-tool">
-          <div class="icon-editor">
+      		<div class="icon-editor" v-for="(item,key) in editorTool">
+              <img :src="item.src"  :width="item.width" @click="sendFn(key)" />
+      		</div>
+          <!--<div class="icon-editor">
               <img src="/static/images/microphone.svg"  width="36" height="30" @click="sendFn('source')" />
           </div>
           <div class="icon-editor">
               <img src="/static/images/smallvideo.svg"  width="28" @click="sendFn('video')" />
           </div>
-          <div class="icon-editor pt-2">
+          <div class="icon-editor">
               <img src="/static/images/frame-landscape.svg"  width="22" @click="sendFn('photo')" />
           </div>
-          <div class="icon-editor pt-2">
+          <div class="icon-editor">
               <img src="/static/images/photo-camera.svg"  width="24"  @click="sendFn('picture')" />
           </div>
-          <div class="icon-editor pt-2">
+          <div class="icon-editor">
               <img src="/static/images/dollars-bag.svg"  width="22" @click="sendFn('money')" />
           </div>
-          <div class="icon-editor pt-2">
+          <div class="icon-editor">
               <img src="/static/images/expression.svg"  width="26" @click="sendFn('emoji')" />
           </div>
-          <div class="icon-editor pt-2">
+          <div class="icon-editor">
               <img src="/static/images/round-add-button.svg"  width="22" @click="sendFn('more')" />
-          </div>
+          </div>-->
       </div>
-      <div class="view-editor-status" id="editorStatus">
+      <div class="view-editor-status" id="editorStatus" v-show="showStatus!==false">
           <transition name="fade" mode="">
               <div class="emoji-wrap" :class="{'active' : showStatus==='picture'}">
                   <vue-emoji @select="selectEmoji"></vue-emoji>
@@ -162,12 +204,43 @@ import VueEmoji from "./Emoji.vue";
 export default {
   data () {
     return {
-      msg: 'Use Vue 2.0 Today!',
-      viewTabRight : true,
-      viewTabLeft : false,
       val : "",
-      showStatus : null,
-      chats :[]
+      showStatus : false,
+      iscrollTop : 0,
+      showStatusHeight : "144",
+      inputHeight : 32,
+      inputHeightDefault : 0,
+      chats :[],
+      editorTool : {
+      		source : {
+      				src : "/static/images/microphone.svg",
+      				width : 36
+      		},
+      		video : {
+      				src : "/static/images/smallvideo.svg",
+      				width : 28
+      		},
+      		photo : {
+      				src : "/static/images/frame-landscape.svg",
+      				width : 22
+      		},
+      		picture : {
+      				src : "/static/images/photo-camera.svg",
+      				width : 24
+      		},
+      		money : {
+      				src : "/static/images/dollars-bag.svg",
+      				width : 22
+      		},
+      		emoji : {
+      				src : "/static/images/expression.svg",
+      				width : 26
+      		},
+      		more : {
+      				src : "/static/images/round-add-button.svg",
+      				width : 22
+      		}
+      }
     }
   },
   components: {
@@ -177,25 +250,47 @@ export default {
   mounted : function(){
     this.$nextTick(function(){
       this.getChatData();
-    })
+      this.inputHeightDefault = this.inputHeight =  document.getElementById("input").clientHeight;
+    });
   },
   methods: {
+  	setStatusPosition(type){//计算 界面&状态栏 位置
+  		var self = this;
+	  		self.showStatus===type ? self.showStatus = false : self.showStatus = type;
+				self.showStatus ? self.iscrollTop = self.showStatusHeight : self.iscrollTop = 0;
+  	},
+  	setInputPosition(){//计算 光标位置
+      var input = document.getElementById("input"),
+      		len = this.val.length;
+  		if (document.selection) { 
+					var sel = input.createTextRange(); 
+					sel.moveStart('character',len); 
+					sel.collapse(); 
+					sel.select(); 
+			} else if (typeof input.selectionStart == 'number' && typeof input.selectionEnd == 'number') { 
+					input.selectionStart = input.selectionEnd = len;
+			}
+  	},
+  	inputFocus(e){//输入框获得焦点
+  		e.preventDefault();
+  		this.setInputPosition();
+  		this.setStatusPosition(false);
+  	},
+  	inputKeyup(){//输入时计算高度
+  		var copyHeight = document.getElementById("inputCopy").scrollHeight;
+  		if(this.inputHeight!=copyHeight) this.inputHeight = copyHeight;
+  	},
+    selectEmoji( code ){//选择表情
+      var self = this;
+      self.val += code;
+  		setTimeout(function(){
+  			self.inputKeyup();
+  			self.setInputPosition();
+  		},0);
+    },
   	sendFn(type){
-  		var self = this,
-  				status = document.getElementById("editorStatus"),
-          statusHeight = status.clientHeight,
-          setFn;
-          
-  		self.showStatus===type ? self.showStatus = false : self.showStatus = type;
-  		
-      setFn = setTimeout(function(){;
-        if(statusHeight!=status.clientHeight){
-            document.getElementById("iscroll").style.top = "-"+document.getElementById("editorStatus").scrollHeight + "px";
-        }else if(!self.showStatus){
-            document.getElementById("iscroll").style.top = "0px";
-        }
-      },0);
-      
+			this.setStatusPosition(type);
+  		var self = this;
   		switch(type){
   			case "source":
   				self.sendSource();
@@ -238,9 +333,6 @@ export default {
     sendEmoji(){
     	console.log("即将上线Emoji")
     },
-    selectEmoji( code ){
-      this.val += code;
-    },
     sendMore(){
       console.log("暂不支持发送录音")
     },
@@ -248,6 +340,7 @@ export default {
       console.log("提交了")
     },
     submitMsg(){
+  		this.inputHeight = this.inputHeightDefault;
     	var value = this.val;
     	this.val = "";
     	this.chats.push({

@@ -2,6 +2,7 @@ import data from '../data/emoji-data.js'
 let emojiData = {}
 Object.values(data).forEach(item => {
   emojiData = { ...emojiData, ...item }
+  console.log(emojiData)
 })
 
 /**
@@ -22,6 +23,6 @@ export function emoji (value) {
 
 function createIcon (item) {
   const value = emojiData[item]
-  const path = './static/emoji/'
+  const path = './static/images/emoji/'
   return `<img src=${path}${value} width="16px" height="16px">`
 }

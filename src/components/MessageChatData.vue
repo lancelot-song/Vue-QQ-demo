@@ -53,6 +53,7 @@ html,body{
     background:#fff;
     border-radius:.5rem;
     z-index: 5;
+    word-break:break-all;
 }
 .view-msg .msg-txt:before{
     position:absolute;
@@ -72,9 +73,9 @@ html,body{
 }.view-msg.send{
     text-align: right;
 }
-.view-msg img{
+/*.view-msg img{
     width: 50%;
-}
+}*/
 </style>
 
 <template>
@@ -82,7 +83,7 @@ html,body{
     <div v-if="message.time" class="view-msg-time">{{ message.time }}</div>
     <div class="view-msg" :class="message.type">
         <div class="user-photo"><img :src="message.photo" /></div>
-        <div class="msg-txt">{{ message.txt }}</div>
+        <div class="msg-txt" v-html="emoji(message.txt)"><!--v-html="emoji(message.txt)"--></div>
     </div>
 </div>
 </template>

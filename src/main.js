@@ -4,11 +4,13 @@ import baseCSS from '../static/css/base.css';
 import mainCss from '../static/css/main.css';
 import App from './App.vue';
 import Touch from './Touch';
-import router from './router'
+import router from './router';
+import { emoji } from './api/emoji.js';
 
 Vue.use(VueResource)
 let $root = null
 
+Vue.prototype.emoji = emoji;
 Vue.prototype.$Touch = {
     setRoot (vm) {
         $root = vm
