@@ -40,22 +40,22 @@ export default {
   },
   methods : {
     sideSwitch () {
-        window.listSwipe = false;
-        this.$swipe.listen('swipe-right', this.$el, () => {
-            if(window.listSwipe) return false;
-            this.sideActive = true;
-            this.closeToken = this.$swipe.listen('swipe-left', this.$el, () => {
-                this.sideActive = false;
-                this.$swipe.leave('swipe-left', this.closeToken)
-            })
-        })
+//      window.listSwipe = false;
+//      this.$swipe.listen('swipe-right', this.$el, () => {
+//          if(window.listSwipe) return false;
+//          this.sideActive = true;
+//          this.closeToken = this.$swipe.listen('swipe-left', this.$el, () => {
+//              this.sideActive = false;
+//              this.$swipe.leave('swipe-left', this.closeToken)
+//          })
+//      })
     },
     sideOpen (b){
-      this.sideActive = true;
-      this.closeToken = this.$swipe.listen('swipe-left', this.$el, () => {
-          this.sideActive = false;
-          this.$swipe.leave('swipe-left', this.closeToken)
-      })
+//    this.sideActive = true;
+//    this.closeToken = this.$swipe.listen('swipe-left', this.$el, () => {
+//        this.sideActive = false;
+//        this.$swipe.leave('swipe-left', this.closeToken)
+//    })
     }
   }
 }

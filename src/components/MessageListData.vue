@@ -140,40 +140,40 @@
                 //this.$emit("testFn", data )
             },
             add () {
-                this.$swipe.listen('swipe-left', this.$el, () => {
-                    if(this.sideActive){
-                        this.swiping = 0;
-                        return false;
-                    }
-                    this.swiping = -160;
-                    this.menu = true;
-                    window.listSwipe = true;
-                    this.closeToken = this.$swipe.listen('swipe-right', this.$el, () => {
-                        this.swiping = 0;
-                        this.menu = false;
-                        this.$swipe.leave('swipe-right', this.closeToken);
-                        window.listSwipe = false;
-                    })
-                })
-
-                this.$swipe.listen('swiping', this.$el, (start, end) => {
-                        if(this.sideActive){
-                            this.swiping = 0;
-                            return false;
-                        }
-                    if (start.x > end.x && this.swiping > -160 && start.x-end.x <= 160) {
-                        this.swiping = -(start.x-end.x)
-                    }
-                })
-                this.$swipe.listen('swiped', this.$el, (start, end) => {
-                    if (!this.menu && !this.sideActive) {
-                        this.swiping = 0;
-                        window.listSwipe = false;
-                    }else{
-                        this.swiping = -160;
-                        window.listSwipe = true;
-                    }
-                })
+//              this.$swipe.listen('swipe-left', this.$el, () => {
+//                  if(this.sideActive){
+//                      this.swiping = 0;
+//                      return false;
+//                  }
+//                  this.swiping = -160;
+//                  this.menu = true;
+//                  window.listSwipe = true;
+//                  this.closeToken = this.$swipe.listen('swipe-right', this.$el, () => {
+//                      this.swiping = 0;
+//                      this.menu = false;
+//                      this.$swipe.leave('swipe-right', this.closeToken);
+//                      window.listSwipe = false;
+//                  })
+//              })
+//
+//              this.$swipe.listen('swiping', this.$el, (start, end) => {
+//                      if(this.sideActive){
+//                          this.swiping = 0;
+//                          return false;
+//                      }
+//                  if (start.x > end.x && this.swiping > -160 && start.x-end.x <= 160) {
+//                      this.swiping = -(start.x-end.x)
+//                  }
+//              })
+//              this.$swipe.listen('swiped', this.$el, (start, end) => {
+//                  if (!this.menu && !this.sideActive) {
+//                      this.swiping = 0;
+//                      window.listSwipe = false;
+//                  }else{
+//                      this.swiping = -160;
+//                      window.listSwipe = true;
+//                  }
+//              })
             }
         }
     }

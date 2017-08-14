@@ -47,6 +47,8 @@ html,body{
     max-width:100%;
     box-sizing:border-box;
     padding:.5rem 3%;
+    min-height: 2.5rem;
+    min-width:2rem;
     font-size:1rem;
     line-height:1.5rem;
     text-align: left;

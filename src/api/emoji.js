@@ -2,7 +2,6 @@ import data from '../data/emoji-data.js'
 let emojiData = {}
 Object.values(data).forEach(item => {
   emojiData = { ...emojiData, ...item }
-  console.log(emojiData)
 })
 
 /**

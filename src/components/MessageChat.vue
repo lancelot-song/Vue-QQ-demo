@@ -1,9 +1,11 @@
-﻿<style>
+﻿<style scoped>
   .view-iscroll-chat{
-    padding:3rem 0 6rem;
-    height:100%;
-    -webkit-box-sizing:border-box;
-    box-sizing:border-box;
+  	position:absolute;
+  	width:100%;
+  	left:0rem;
+  	top:3rem;bottom:5.125rem;
+  	overflow-x: hidden;
+  	overflow-y: auto;
     -webkit-transition:all .3s ease;
     transition:all .3s ease;
     -webkit-transform:translateZ(0);
@@ -111,8 +113,7 @@
   <header class="view-head">
       <div class="view-head-left">
           <router-link :to="{ path: '/message'}" class="return-link">
-            <img src="/static/images/return.svg" class="view-head-icon-return" width="28" />消息</router-link>
-
+          <img src="/static/images/return.svg" class="view-head-icon-return" width="28" />消息</router-link>
       </div>
       <span class="view-head-center">
           <a>LSZH</a><br/>
@@ -129,15 +130,15 @@
       </div>
   </header>
 
-  <div id="iscroll" class="view-iscroll-chat"
+  <div class="view-iscroll-chat" ref = "iscrollChat"
   		 :style="'-webkit-transform:translateY(-'+iscrollTop+'px);transform:translateY(-'+iscrollTop+'px)'">
       <chat-data v-for="item in chats" :message="item"></chat-data>
   </div>
 
-  <div class="view-editor" id="editorContent">
-    <form id="messageForm" @submit.prevent="onSubmit">
+  <div class="view-editor">
+    <form @submit.prevent="onSubmit">
       <div class="view-input-group">
-      	<textarea class="textarea" placeholder="请输入您要发送的消息" id="input" autocorrect="off"
+      	<textarea class="textarea" placeholder="请输入您要发送的消息" ref="inputMsg" autocorrect="off"
       			v-model="val" 
       			@click="inputFocus($event)"
       			@keyup="inputKeyup($event)"
@@ -147,50 +148,23 @@
       	<button type="button" @click="submitMsg" class="btn-send">发送</button>
       </div>
       <div class="view-input-group-copy">
-      	<textarea class="textarea-copy" id="inputCopy" autocorrect="off" v-model="val"></textarea>
+      	<textarea class="textarea-copy" ref="inputCopy" autocorrect="off" v-model="val"></textarea>
       </div>
       <div class="view-editor-tool">
       		<div class="icon-editor" v-for="(item,key) in editorTool">
               <img :src="item.src"  :width="item.width" @click="sendFn(key)" />
       		</div>
-          <!--<div class="icon-editor">
-              <img src="/static/images/microphone.svg"  width="36" height="30" @click="sendFn('source')" />
-          </div>
-          <div class="icon-editor">
-              <img src="/static/images/smallvideo.svg"  width="28" @click="sendFn('video')" />
-          </div>
-          <div class="icon-editor">
-              <img src="/static/images/frame-landscape.svg"  width="22" @click="sendFn('photo')" />
-          </div>
-          <div class="icon-editor">
-              <img src="/static/images/photo-camera.svg"  width="24"  @click="sendFn('picture')" />
-          </div>
-          <div class="icon-editor">
-              <img src="/static/images/dollars-bag.svg"  width="22" @click="sendFn('money')" />
-          </div>
-          <div class="icon-editor">
-              <img src="/static/images/expression.svg"  width="26" @click="sendFn('emoji')" />
-          </div>
-          <div class="icon-editor">
-              <img src="/static/images/round-add-button.svg"  width="22" @click="sendFn('more')" />
-          </div>-->
       </div>
-      <div class="view-editor-status" id="editorStatus" v-show="showStatus!==false">
-          <transition name="fade" mode="">
-              <div class="emoji-wrap" :class="{'active' : showStatus==='picture'}">
-                  <vue-emoji @select="selectEmoji"></vue-emoji>
-              </div>
-					</transition>
-          <transition name="fade" mode="">
-              <div class="emoji-wrap" :class="{'active' : showStatus==='emoji'}">
-                  <vue-emoji @select="selectEmoji"></vue-emoji>
-              </div>
-					</transition>
-          <transition name="fade" mode="">
-              <div class="emoji-wrap" :class="{'active' : showStatus==='more'}">
-                  <vue-more></vue-more>
-              </div>
-          </transition>
+      <div class="view-editor-status" v-show="showStatus!==false">
+          <div class="emoji-wrap" :class="{'active' : showStatus==='picture'}">
+              <vue-emoji @select="selectEmoji"></vue-emoji>
+          </div>
+          <div class="emoji-wrap" :class="{'active' : showStatus==='emoji'}">
+              <vue-emoji @select="selectEmoji"></vue-emoji>
+          </div>
+          <div class="emoji-wrap" :class="{'active' : showStatus==='more'}">
+              <vue-more></vue-more>
+          </div>
       </div>
     </form>
   </div>
@@ -253,7 +227,7 @@ export default {
   mounted : function(){
     this.$nextTick(function(){
       this.getChatData();
-      this.inputHeightDefault = this.inputHeight =  document.getElementById("input").clientHeight;
+      this.inputHeightDefault = this.inputHeight =  this.$refs.inputMsg.clientHeight;
     });
   },
   methods: {
@@ -263,7 +237,7 @@ export default {
 				self.showStatus ? self.iscrollTop = self.showStatusHeight : self.iscrollTop = 0;
   	},
   	setInputPosition(){//计算 光标位置
-      var input = document.getElementById("input"),
+      var input = this.$refs.inputMsg,
       		len = this.val.length;
   		if (document.selection) { 
 					var sel = input.createTextRange(); 
@@ -280,19 +254,17 @@ export default {
   		this.setStatusPosition(false);
   	},
   	inputKeyup(){//输入时计算高度
-  		var copyHeight = document.getElementById("inputCopy").scrollHeight;
+  		var copyHeight = this.$refs.inputCopy.scrollHeight;
   		if(this.inputHeight!=copyHeight) this.inputHeight = copyHeight;
   	},
     selectEmoji( code ){//选择表情
-      var self = this;
-      self.val += code;
-  		setTimeout(function(){
-  			self.inputKeyup();
-  			self.setInputPosition();
-  		},0);
+      this.val += code;
+      this.$nextTick(function(){
+  			this.inputKeyup();
+  			this.setInputPosition();
+      })
     },
   	sendFn(type){
-			this.setStatusPosition(type);
   		var self = this;
   		switch(type){
   			case "source":
@@ -311,9 +283,11 @@ export default {
   				self.sendMoney();
   				break;
   			case "emoji":
+					this.setStatusPosition(type);
   				self.sendEmoji();
   				break;
   			case "more":
+					this.setStatusPosition(type);
   				self.sendMore();
   				break;
   		}
@@ -343,6 +317,7 @@ export default {
       console.log("提交了")
     },
     submitMsg(){
+    	if(this.val==="") return false;
   		this.inputHeight = this.inputHeightDefault;
     	var value = this.val;
     	this.val = "";
@@ -350,6 +325,10 @@ export default {
 		    "type": "send",
 		    "photo":"./static/images/userphoto-04.png",
 		    "txt": value
+			});
+			this.$nextTick(function(){
+				var iscrollChat = this.$refs.iscrollChat;
+				iscrollChat.scrollTop = iscrollChat.scrollHeight - iscrollChat.clientHeight;
 			})
     },
     getChatData () {

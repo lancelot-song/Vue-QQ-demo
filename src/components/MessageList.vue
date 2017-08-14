@@ -7,7 +7,12 @@
   overflow: hidden;
 }
   .view-iscroll-message{
-    padding:3rem 0 3.5rem;
+  	position:absolute;
+  	width:100%;
+  	left:0rem;
+  	top:3rem;bottom:3.5rem;
+  	overflow-x: hidden;
+  	overflow-y: auto;
   }
   .view-msglist-search{
     padding:.5rem;

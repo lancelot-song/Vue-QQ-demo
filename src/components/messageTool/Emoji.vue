@@ -64,6 +64,9 @@ export default {
     float: left;
     width:20%;
     height: 22px;
+    line-height:22px;
+    font-size:.875rem;
+    color:#333;
     text-align: center;
   }
   li.active{
