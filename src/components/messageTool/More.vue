@@ -2,7 +2,7 @@
 <div class="more-wrap" >
 	<div class="more-swipe" 
 		:style="'width:'+moreListWidth+'px;'"
-		v-swipe>
+		v-swipe.page="{ type : 'page'}">
 	    <ul class="more-list" v-for="(menuAry,index) in moreMenu" :style="'width:'+moreListWidth/2+'px'">
 	      <li v-for="(menu,index) in menuAry">
 	          <a href="javascript:;" @click="moreMenuClick()">
@@ -69,6 +69,9 @@ export default {
 		}
 	},
 	mounted (){
+//		this.$nextTick(function(){
+//			console.log(this.moreMenu);
+//		});
 	},
 	methods :{
 		moreSwipe () {

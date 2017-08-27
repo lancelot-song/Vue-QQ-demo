@@ -7,12 +7,6 @@
     .cov-message-chat-item{
         display: block;
     }
-    .cov-message-chat-row.menu-active .cov-message-chat-item {
-        transform: translate3d(-10rem, 0, 0);
-    }
-    .cov-message-chat-row.menu-active .cov-message-menu {
-        transform: translate3d(-10rem, 0, 0);
-    }
     .cov-message-menu {
         position: absolute;
         top: 0;
@@ -22,7 +16,6 @@
         height: 4rem;
         display: flex;
         z-index: 1;
-        transition: transform .5s;
         transform: translate3d(0, 0, 0);
     }
     .cov-message-menu-item {
@@ -38,14 +31,13 @@
         display: flex;
         height: 4rem;
         border-bottom: 1px solid #f0f0f0;
+        color:#333;
         background: #fff;
         z-index: 2;
         width: 100%;
         transform: translate3d(0, 0, 0);
-        transition: transform .5s;
     }
     .cov-message-chat-avatar {
-/*        background-image: url(../assets/cov.jpeg);*/
         height: 3rem;
         width: 3rem;
         background-size: cover;
@@ -66,6 +58,7 @@
         font-size: .8rem;
         color: #666;
         height: 1rem;
+        color:#A6A6A6;
         overflow: hidden;
     }
     .cov-message-chat-info {
@@ -93,11 +86,17 @@
         text-align: right;
     }
     .cov-block{display: block;}
+    .swipe-menu,.swipe-menu-btn{
+	    transform:translate3d(0px,0px,0px);
+    }
+    .swipe-menu.swipe-animate,.swipe-menu-btn.swipe-animate{
+        transition: transform .5s;
+    }
 </style>
 
 <template>
-    <div class="cov-message-chat-row" :class="{ 'menu-active': menu }" >
-            <router-link :to="{ path : '/chat'}" class="cov-message-chat-item" :style="{ 'transform': 'translate3d(' + swiping + 'px, 0, 0)' }">
+    <div class="cov-message-chat-row" :class="{ 'menu-active': menu }" v-swipe="{type :'menu'}">
+            <router-link :to="{ path : '/chat'}" class="cov-message-chat-item swipe-menu">
                 <div class="cov-message-chat-avatar" :style="{'background-image': 'url(' + message.avatar + ')'}"></div>
                 <div class="cov-message-chat-content">
                     <div class="cov-message-chat-title">{{message.title | myFilters("过滤器处理标题")}}</div>
@@ -110,7 +109,7 @@
                     </div>
                 </div>
             </router-link>
-            <div class="cov-message-menu" :style="{ 'transform': 'translate3d(' + swiping + 'px, 0, 0)' }">
+            <div class="cov-message-menu swipe-menu-btn" >
                 <div class="cov-message-menu-item">置顶</div>
                 <div class="cov-message-menu-item delete" @click="removeMessage($event, message)">删除</div>
             </div>
@@ -128,7 +127,7 @@
             }
         },
         mounted () {
-            this.add()
+            //this.add()
         },
         filters : {
             myFilters (value , type){
@@ -138,42 +137,6 @@
         methods: {
             removeMessage (e, data){
                 //this.$emit("testFn", data )
-            },
-            add () {
-//              this.$swipe.listen('swipe-left', this.$el, () => {
-//                  if(this.sideActive){
-//                      this.swiping = 0;
-//                      return false;
-//                  }
-//                  this.swiping = -160;
-//                  this.menu = true;
-//                  window.listSwipe = true;
-//                  this.closeToken = this.$swipe.listen('swipe-right', this.$el, () => {
-//                      this.swiping = 0;
-//                      this.menu = false;
-//                      this.$swipe.leave('swipe-right', this.closeToken);
-//                      window.listSwipe = false;
-//                  })
-//              })
-//
-//              this.$swipe.listen('swiping', this.$el, (start, end) => {
-//                      if(this.sideActive){
-//                          this.swiping = 0;
-//                          return false;
-//                      }
-//                  if (start.x > end.x && this.swiping > -160 && start.x-end.x <= 160) {
-//                      this.swiping = -(start.x-end.x)
-//                  }
-//              })
-//              this.$swipe.listen('swiped', this.$el, (start, end) => {
-//                  if (!this.menu && !this.sideActive) {
-//                      this.swiping = 0;
-//                      window.listSwipe = false;
-//                  }else{
-//                      this.swiping = -160;
-//                      window.listSwipe = true;
-//                  }
-//              })
             }
         }
     }

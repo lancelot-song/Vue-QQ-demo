@@ -24,6 +24,12 @@ const router = new VueRouter({
                     component : (resolve) =>{
                         require(['@/components/MessageList.vue'], resolve);
                     }
+                },
+                {
+                    path : "friendInfo",
+                    component : (resolve) =>{
+                        require(['@/components/MessageList.vue'], resolve);
+                    }
                 }
             ]
         },

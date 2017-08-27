@@ -124,7 +124,9 @@
             <img src="/static/images/phone.svg" width="30" />
         </span>
         <span class="view-head-icon-2">
+        	<router-link :to="{ path: '/message/friendInfo'}" class="return-link">
             <img src="/static/images/user.svg" width="28" />
+         </router-link>
         </span>
 
       </div>
@@ -206,6 +208,11 @@ let editorTool = {
 				width : 22
 		}
 }
+let obj = ["c","d"];
+let obj2 = {a:1,b:2};
+console.log(obj2[Symbol.isConcatSpreadable]);
+obj2[Symbol.isConcatSpreadable] = true;
+console.log(["a","b"].concat(obj2,"e"));
 export default {
   data () {
     return {
