@@ -1,6 +1,6 @@
 # project
 
-> vue qq demo (未全部完成)
+> vue qq demo (仅完成了聊天界面的部分功能)
 
 > 未翻墙请使用cnpm代替npm安装依赖
 
